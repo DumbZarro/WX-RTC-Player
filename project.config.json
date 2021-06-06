@@ -37,9 +37,9 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.11.3",
+  "libVersion": "2.17.0",
   "appid": "wx8c1b8a83c6220726",
-  "projectname": "mlvb-demo",
+  "projectname": "5GVR_Player",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {

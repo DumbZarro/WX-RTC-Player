@@ -9,7 +9,7 @@ Page({
     videoContext: {},
 
     fullScreen: false,
-    playUrl: "rtmp://txlive.dumbzarro.top/live/test",
+    playUrl: "http://txlive.dumbzarro.top/live/test.flv",
     orientation: "vertical",
     objectFit: "contain",
     muted: false,
@@ -171,34 +171,34 @@ Page({
    */
   onLoad: function (options) {
     var self = this;
-    wx.request({
-      url: 'rtmp://txlive.dumbzarro.top/live/test',
-      success: (res) => {
-        // if (res.data.returnValue != 0) {
-        //   wx.showToast({
-        //     title: '获取播放地址失败',
-        //   })
-        //   return;
-        // }
+    // wx.request({
+    //   url: 'rtmp://txlive.dumbzarro.top/live/test',
+    //   success: (res) => {
+    //     // if (res.data.returnValue != 0) {
+    //     //   wx.showToast({
+    //     //     title: '获取播放地址失败',
+    //     //   })
+    //     //   return;
+    //     // }
 
-        var playUrl = res.data['url_rtmpacc'];
+    //     var playUrl = res.data['url_rtmpacc'];
 
-        console.log(playUrl);
-        self.setData({
-          playUrl: playUrl
-        })
+    //     console.log(playUrl);
+    //     self.setData({
+    //       playUrl: playUrl
+    //     })
 
-        wx.showToast({
-          title: '获取地址成功',
-        })
-      },
-      fail: (res) => {
-        console.log(res);
-        wx.showToast({
-          title: '网络或服务器异常',
-        })
-      }
-    })
+    //     wx.showToast({
+    //       title: '获取地址成功',
+    //     })
+    //   },
+    //   fail: (res) => {
+    //     console.log(res);
+    //     wx.showToast({
+    //       title: '网络或服务器异常',
+    //     })
+    //   }
+    // })
   },
 
   /**

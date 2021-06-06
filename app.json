@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/home-page/main",
+    "pages/live-player-demo/play",
+    "pages/rtc-player-demo/rtplay",
+    "pages/RTCplayer-mqtt/RTCplayer-mqtt"
+  ],
+  "networkTimeout": {
+    "request": 60000
+  },
+  "window": {
+    "backgroundColor": "#888",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "腾讯视频云",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom"
+  }
+}

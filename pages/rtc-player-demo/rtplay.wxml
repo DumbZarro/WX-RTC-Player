@@ -1,6 +1,6 @@
 <view style="width:100%;height: 100%; background-color: black;">
   <view style="width:100%;height:100%;">
-    <live-player style="width:100%;height:100%; position:absolute;" id="video-livePlayer" mode="RTC" orientation="{{orientation}}" muted="{{muted}}" background-mute="{{backgroundMute}}" object-fit="{{objectFit}}" min-cache="1" max-cache="3" src="{{playUrl}}"
+    <live-player style="width:100%;height:100%; position:absolute;" id="video-livePlayer" mode="RTC" orientation="vertical" muted="{{muted}}" background-mute="{{backgroundMute}}" object-fit="{{objectFit}}" min-cache="1" max-cache="3" src="{{playUrl}}"
       debug="{{debug}}" bindstatechange="onPlayEvent" bindfullscreenchange="onFullScreenChange">
       <cover-image hidden="{{playing}}" style="width:100%; height: 100%; position:absolute;" src="https://mc.qcloudimg.com/static/img/7da57e0050d308e2e1b1e31afbc42929/bg.png"></cover-image>
 
