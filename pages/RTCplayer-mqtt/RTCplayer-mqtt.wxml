@@ -1,0 +1,6 @@
+<!--pages/RTCplayer-mqtt/RTCplayer-mqtt.wxml-->
+<text>pages/RTCplayer-mqtt/RTCplayer-mqtt.wxml</text>
+<live-player mode="RTC" orientation="horizontal" min-cache="0.2" max-cache="0.8" autoplay="true" src="">
+
+
+</live-player>
