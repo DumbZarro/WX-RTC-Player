@@ -1,9 +1,7 @@
 {
   "pages": [
     "pages/home-page/main",
-    "pages/live-player-demo/play",
-    "pages/rtc-player-demo/rtplay",
-    "pages/RTCplayer-mqtt/RTCplayer-mqtt"
+    "pages/rtc-player-demo/rtplay"
   ],
   "networkTimeout": {
     "request": 60000
@@ -12,8 +10,9 @@
     "backgroundColor": "#888",
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "腾讯视频云",
+    "navigationBarTitleText": "5GVR播放器",
     "navigationBarTextStyle": "white",
     "navigationStyle": "custom"
-  }
+  },
+  "sitemapLocation": "sitemap75.json"
 }

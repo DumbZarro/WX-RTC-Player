@@ -1,0 +1,22 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "低延时播放",
+          "pathName": "pages/rtc-player-demo/rtplay",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

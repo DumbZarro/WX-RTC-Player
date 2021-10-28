@@ -1,4 +1,5 @@
 const app = getApp()
+import mqtt from "../../utils/mqtt.js";
 Page({
 
   /**
@@ -7,9 +8,10 @@ Page({
   data: {
     playing: false,
     videoContext: {},
-
     fullScreen: false,
     playUrl: "http://txlive.dumbzarro.top/live/test.flv",
+    // playUrl: "webrtc://txlive.dumbzarro.top/live/test",
+    // playUrl: "rtmp://txlive.dumbzarro.top/live/test",
     orientation: "vertical",
     objectFit: "contain",
     muted: false,
@@ -17,7 +19,119 @@ Page({
     debug: false,
     headerHeight: app.globalData.headerHeight,
     statusBarHeight: app.globalData.statusBarHeight,
+    Gyroscope: {
+      gyroX:0,
+      gyroY:0,
+      gyroZ:0,
+    },
+    client:null,
+    init_flag:false,
+    init_alpha:0,
+    cycle:0,
+    last_alpha:0
   },
+
+  onLoad: function () {
+    let that = this;
+    console.log(app.globalData.mqtt_client)
+    that.setData({
+      client:app.globalData.mqtt_client
+    })
+     
+    wx.startDeviceMotionListening({
+      interval:"game",  //normal,game,ui
+      success: res => {
+        console.log(res);
+      },
+      fail: err => {
+        console.log(err)
+      }
+    })
+    wx.onDeviceMotionChange(
+      res => {
+        let that = this;
+        if(that.data.init_flag==false){
+          that.data.init_flag=true;
+          that.data.init_alpha=res.alpha
+        }
+        let fix_alpha = res.alpha - that.data.init_alpha
+        
+        if(fix_alpha<0){
+          fix_alpha+=360
+        }
+
+        if((that.data.last_alpha>270)&&(fix_alpha<90)){
+          that.data.cycle += 1
+        }
+        if((that.data.last_alpha<90)&&(fix_alpha>270)){
+          that.data.cycle -= 1
+        }
+
+
+
+
+        that.data.last_alpha = fix_alpha;
+
+        let true_alpha = that.data.cycle*360 + fix_alpha  //真实度数
+
+
+
+        
+        that.setData({
+          Gyroscope: {
+            gyroX: parseInt(true_alpha),
+            gyroY: parseInt(res.beta),
+            gyroZ: parseInt(res.gamma),
+          }
+        })
+        
+        // 发送MQ
+        console.log("发送的数据是")
+        let message = JSON.stringify(that.data.Gyroscope)
+        console.log(message)
+        that.data.client.publish("VrPlayer", message)
+      },
+    )
+
+    //  //开始监听陀螺仪
+    //  wx.startGyroscope({
+    //   interval:"game",  //normal,game,ui
+    //   success: res => {
+    //     // console.log("陀螺仪数据")
+    //     // console.log(res);
+    //   },
+    //   fail: err => {
+    //     console.log(err)
+    //   }
+    // })
+
+    // // 这个API接受的是一个回调函数
+    // wx.onGyroscopeChange(
+    //   res => {
+    //     // console.log("陀螺仪数据")
+    //     // console.log(res);
+
+    //     let sendX=parseInt(res.x * 10)+that.data.Gyroscope.gyroX
+    //     let sendY=parseInt(res.y * 10)+that.data.Gyroscope.gyroY
+    //     let sendZ=parseInt(res.z * 10)+that.data.Gyroscope.gyroZ
+    //     that.setData({
+    //       Gyroscope: {
+    //         gyroX: sendX,
+    //         gyroY: sendY,
+    //         gyroZ: sendZ,
+    //       }
+    //     })
+    //     // 发送MQ
+    //     console.log("发送的数据是")
+    //     let message = JSON.stringify(that.data.Gyroscope)
+    //     console.log(message)
+    //     // that.data.client.publish("VrPlayer", message)
+    //   },
+    // )
+
+  },
+  
+
 
   onScanQR: function () {
     this.stop();
@@ -36,10 +150,8 @@ Page({
 
   onPlayClick: function () {
     var url = this.data.playUrl;
-    if (url.indexOf("rtmp:") == 0) {
-    } else if (url.indexOf("https:") == 0 || url.indexOf("http:") == 0) {
-      if (url.indexOf(".flv") != -1) {
-      }
+    if (url.indexOf("rtmp:") == 0) {} else if (url.indexOf("https:") == 0 || url.indexOf("http:") == 0) {
+      if (url.indexOf(".flv") != -1) {}
     } else {
       wx.showToast({
         title: '播放地址不合法，目前仅支持rtmp,flv方式!',
@@ -164,41 +276,6 @@ Page({
     this.setData({
       videoContext: wx.createLivePlayerContext("video-livePlayer")
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var self = this;
-    // wx.request({
-    //   url: 'rtmp://txlive.dumbzarro.top/live/test',
-    //   success: (res) => {
-    //     // if (res.data.returnValue != 0) {
-    //     //   wx.showToast({
-    //     //     title: '获取播放地址失败',
-    //     //   })
-    //     //   return;
-    //     // }
-
-    //     var playUrl = res.data['url_rtmpacc'];
-
-    //     console.log(playUrl);
-    //     self.setData({
-    //       playUrl: playUrl
-    //     })
-
-    //     wx.showToast({
-    //       title: '获取地址成功',
-    //     })
-    //   },
-    //   fail: (res) => {
-    //     console.log(res);
-    //     wx.showToast({
-    //       title: '网络或服务器异常',
-    //     })
-    //   }
-    // })
   },
 
   /**
